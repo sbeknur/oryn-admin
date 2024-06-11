@@ -10,9 +10,8 @@ import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const List = ({ rows, columns }) => {
+const List = ({ rows, columns, rowType }) => {
     const location = useLocation();
-    const path = location.pathname.split("/")[1];
     const restaurantId = location.pathname.split("/")[2]; // Предполагается, что restaurantId находится в URL
 
     const [list, setList] = useState(rows);
@@ -21,7 +20,7 @@ const List = ({ rows, columns }) => {
         setList(rows);
     }, [rows]);
 
-    const handleDelete = async (id, rowType) => {
+    const handleDelete = async (id) => {
         try {
             await axios.delete(`/${rowType}/${id}/${restaurantId}`);
             setList(list.filter((item) => item._id !== id));
@@ -30,8 +29,8 @@ const List = ({ rows, columns }) => {
         }
     };
 
-    const getEditLink = (row, rowType) => {
-        return `/${rowType}/${row._id}/${restaurantId}`;
+    const getEditLink = (row) => {
+        return `/${rowType}/${row._id}`;
     };
 
     const actionColumn = {
@@ -40,14 +39,13 @@ const List = ({ rows, columns }) => {
         width: 200,
         renderCell: (params) => {
             const row = params.row;
-            const rowType = path === "places" ? "places" : "foods"; // Определяем rowType в зависимости от пути
 
             return (
                 <div className="cellAction">
-                    <Link to={getEditLink(row, rowType)} style={{ textDecoration: "none" }}>
+                    <Link to={getEditLink(row)} style={{ textDecoration: "none" }}>
                         <div className="viewButton">View</div>
                     </Link>
-                    <div className="deleteButton" onClick={() => handleDelete(row._id, rowType)}>
+                    <div className="deleteButton" onClick={() => handleDelete(row._id)}>
                         Delete
                     </div>
                 </div>

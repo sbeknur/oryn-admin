@@ -128,9 +128,9 @@ const Single = () => {
                 {path === "restaurants" && (
                     <div className="bottom">
                         <h1 className="title">Places</h1>
-                        <List rows={relatedData.places} columns={placeColumns} />
+                        <List rows={relatedData.places} columns={placeColumns}  rowType="places" />
                         <h1 className="title">Foods</h1>
-                        <List rows={relatedData.foods} columns={foodColumns} />
+                        <List rows={relatedData.foods} columns={foodColumns} rowType="foods" />
                     </div>
                 )}
             </div>
