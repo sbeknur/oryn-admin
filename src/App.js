@@ -3,16 +3,17 @@ import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
-import MyRestaurant from "./pages/myRestaurant/MyRestaurant"; // Import MyRestaurant component
+import MyRestaurant from "./pages/myRestaurant/MyRestaurant";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
-import { restaurantColumns, placeColumns, userColumns } from "./datatablesource";
+import { restaurantColumns, placeColumns, userColumns, foodColumns } from "./datatablesource";
 import NewRestaurant from "./pages/newRestaurant/NewRestaurant";
 import NewPlace from "./pages/newPlace/NewPlace";
+import NewFood from "./pages/newFood/NewFood";
 
 function App() {
     const { darkMode } = useContext(DarkModeContext);
@@ -123,16 +124,32 @@ function App() {
                                 }
                             />
                         </Route>
-                        <Route path="myRestaurant">
+                        <Route path="foods">
                             <Route
                                 index
                                 element={
-                                    <ProtectedRoute allowedRoles={["restaurant"]}>
-                                        <MyRestaurant />
+                                    <ProtectedRoute allowedRoles={["admin", "restaurant"]}>
+                                        <List columns={foodColumns} />
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path="new"
+                                element={
+                                    <ProtectedRoute allowedRoles={["admin", "restaurant"]}>
+                                        <NewFood />
                                     </ProtectedRoute>
                                 }
                             />
                         </Route>
+                        <Route
+                            path="myRestaurant"
+                            element={
+                                <ProtectedRoute allowedRoles={["restaurant"]}>
+                                    <MyRestaurant />
+                                </ProtectedRoute>
+                            }
+                        />
                     </Route>
                 </Routes>
             </BrowserRouter>

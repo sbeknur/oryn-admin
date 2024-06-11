@@ -18,48 +18,10 @@ export const userInputs = [
         placeholder: "+1 234 567 89",
     },
     {
-        id: "password",
-        label: "Password",
-        type: "password",
-    },
-    {
         id: "city",
         label: "City",
         type: "text",
         placeholder: "USA",
-    },
-];
-
-export const productInputs = [
-    {
-        id: 1,
-        label: "Title",
-        type: "text",
-        placeholder: "Apple Macbook Pro",
-    },
-    {
-        id: 2,
-        label: "Description",
-        type: "text",
-        placeholder: "Description",
-    },
-    {
-        id: 3,
-        label: "Category",
-        type: "text",
-        placeholder: "Computers",
-    },
-    {
-        id: 4,
-        label: "Price",
-        type: "text",
-        placeholder: "100",
-    },
-    {
-        id: 5,
-        label: "Stock",
-        type: "text",
-        placeholder: "in stock",
     },
 ];
 
@@ -86,7 +48,7 @@ export const restaurantInputs = [
         id: "address",
         label: "Address",
         type: "text",
-        placeholder: "elton st, 216",
+        placeholder: "",
     },
     {
         id: "title",
@@ -113,12 +75,39 @@ export const placeInputs = [
         id: "desc",
         label: "Description",
         type: "text",
-        placeholder: "Authentic cuisine, family-friendly atmosphere",
+        placeholder: "",
     },
     {
         id: "maxPeople",
         label: "Max People",
         type: "number",
         placeholder: "2",
+    },
+];
+
+export const foodInputs = [
+    {
+        id: "name",
+        label: "Name",
+        type: "text",
+        placeholder: "Food name",
+    },
+    {
+        id: "type",
+        label: "Type",
+        type: "text",
+        placeholder: "Food type",
+    },
+    {
+        id: "price",
+        label: "Price",
+        type: "number",
+        placeholder: "Price",
+    },
+    {
+        id: "desc",
+        label: "Description",
+        type: "text",
+        placeholder: "Description",
     },
 ];

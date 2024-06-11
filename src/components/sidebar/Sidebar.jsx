@@ -1,16 +1,10 @@
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
-import InsertChartIcon from "@mui/icons-material/InsertChart";
-import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
-import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import FastfoodIcon from '@mui/icons-material/Fastfood';
 import { Link, useNavigate } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { AuthContext } from "../../context/AuthContext";
@@ -28,12 +22,6 @@ const Sidebar = () => {
 
     return (
         <div className="sidebar">
-            <div className="top">
-                <Link to="/" style={{ textDecoration: "none" }}>
-                    <span className="logo">oryn - {user.role}</span>
-                </Link>
-            </div>
-            <hr />
             <div className="center">
                 <ul>
                     <p className="title">MAIN</p>
@@ -64,6 +52,12 @@ const Sidebar = () => {
                                     <span>Places</span>
                                 </li>
                             </Link>
+                            <Link to="/foods" style={{ textDecoration: "none" }}>
+                                <li>
+                                    <FastfoodIcon className="icon" />
+                                    <span>Foods</span>
+                                </li>
+                            </Link>
                         </>
                     )}
                     {user.role === "restaurant" && (
@@ -81,12 +75,14 @@ const Sidebar = () => {
                                     <span>Places</span>
                                 </li>
                             </Link>
+                            <Link to="/foods" style={{ textDecoration: "none" }}>
+                                <li>
+                                    <FastfoodIcon className="icon" />
+                                    <span>Foods</span>
+                                </li>
+                            </Link>
                         </>
                     )}
-                    <li>
-                        <AccountCircleOutlinedIcon className="icon" />
-                        <span>Profile</span>
-                    </li>
                     <li onClick={handleLogout}>
                         <ExitToAppIcon className="icon" />
                         <span>Logout</span>

@@ -72,3 +72,28 @@ export const placeColumns = [
         width: 100,
     },
 ];
+
+
+export const foodColumns = [
+    { field: "_id", headerName: "ID", width: 250 },
+    {
+        field: "name",
+        headerName: "Name",
+        width: 230,
+    },
+    {
+        field: "type",
+        headerName: "Type",
+        width: 150,
+    },
+    {
+        field: "price",
+        headerName: "Price",
+        width: 100,
+    },
+    {
+        field: "desc",
+        headerName: "Description",
+        width: 300,
+    },
+];
