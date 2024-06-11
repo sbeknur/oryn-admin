@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, Link, useNavigate } from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import Chart from "../../components/chart/Chart";
@@ -11,6 +11,7 @@ import "./single.scss";
 const Single = () => {
     const { id } = useParams();
     const location = useLocation();
+    const navigate = useNavigate();
     const path = location.pathname.split("/")[1]; // users, restaurants, places
     const [data, setData] = useState(null);
     const [info, setInfo] = useState({});
@@ -70,6 +71,14 @@ const Single = () => {
 
     const columns = getColumnInfo();
 
+    const handleAddNewPlace = () => {
+        navigate(`/places/new`, { state: { restaurantId: id } });
+    };
+
+    const handleAddNewFood = () => {
+        navigate(`/foods/new`, { state: { restaurantId: id } });
+    };
+
     return (
         <div className="single">
             <Sidebar />
@@ -90,19 +99,20 @@ const Single = () => {
                             <div className="details">
                                 {editMode ? (
                                     <>
-                                        {columns.map((column) => (
-                                            column.field !== "_id" && (
-                                                <div className="formInput" key={column.field}>
-                                                    <label>{column.headerName}</label>
-                                                    <input
-                                                        id={column.field}
-                                                        value={info[column.field] || ''}
-                                                        onChange={handleChange}
-                                                        type="text"
-                                                    />
-                                                </div>
-                                            )
-                                        ))}
+                                        {columns.map(
+                                            (column) =>
+                                                column.field !== "_id" && (
+                                                    <div className="formInput" key={column.field}>
+                                                        <label>{column.headerName}</label>
+                                                        <input
+                                                            id={column.field}
+                                                            value={info[column.field] || ""}
+                                                            onChange={handleChange}
+                                                            type="text"
+                                                        />
+                                                    </div>
+                                                )
+                                        )}
                                         <button onClick={handleSave}>Save</button>
                                     </>
                                 ) : (
@@ -118,19 +128,29 @@ const Single = () => {
                                 )}
                             </div>
                         </div>
-                        {path === "restaurants" && (
-                            <div className="right">
-                                <Chart aspect={3 / 1} title="Restaurant Analytics" />
-                            </div>
-                        )}
                     </div>
+                    {path === "restaurants" && (
+                        <div className="right">
+                            <Chart aspect={3 / 1} title="Restaurant Analytics" />
+                        </div>
+                    )}
                 </div>
                 {path === "restaurants" && (
                     <div className="bottom">
-                        <h1 className="title">Places</h1>
-                        <List rows={relatedData.places} columns={placeColumns}  rowType="places" />
-                        <h1 className="title">Foods</h1>
-                        <List rows={relatedData.foods} columns={foodColumns} rowType="foods" />
+                        <div className="tableHeader">
+                            <h1 className="title">Places</h1>
+                            <button onClick={handleAddNewPlace} className="link">
+                                Add New
+                            </button>
+                        </div>
+                        <List rows={relatedData.places} columns={placeColumns} rowType="places" restaurantId={id} />
+                        <div className="tableHeader">
+                            <h1 className="title">Foods</h1>
+                            <button onClick={handleAddNewFood} className="link">
+                                Add New
+                            </button>
+                        </div>
+                        <List rows={relatedData.foods} columns={foodColumns} rowType="foods" restaurantId={id} />
                     </div>
                 )}
             </div>

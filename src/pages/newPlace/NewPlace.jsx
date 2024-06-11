@@ -2,16 +2,16 @@ import "./newPlace.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { placeInputs } from "../../formSource";
-import useFetch from "../../hooks/useFetch";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
 
 const NewPlace = () => {
-    const [files, setFiles] = useState("");
+    const location = useLocation();
+    const { restaurantId } = location.state; // Получаем restaurantId из state
+    const [files, setFiles] = useState([]);
     const [info, setInfo] = useState({});
-    const { user } = useContext(AuthContext);
 
     const handleChange = (e) => {
         setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -19,16 +19,18 @@ const NewPlace = () => {
 
     const handleClick = async (e) => {
         e.preventDefault();
+        const photos = files.map(file => URL.createObjectURL(file));
         try {
             const newPlace = {
                 ...info,
-                restaurantId: user.restaurantId,
-                photos: files.length > 0 ? files.map(file => URL.createObjectURL(file)) : [],
+                restaurantId,
+                photos,
             };
-
-            await axios.post("/places", newPlace);
+            await axios.post(`/places/${restaurantId}`, newPlace);
+            alert('Place added successfully');
         } catch (err) {
             console.log(err);
+            alert('Error adding place');
         }
     };
 
