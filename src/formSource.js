@@ -3,25 +3,19 @@ export const userInputs = [
         id: "username",
         label: "Username",
         type: "text",
-        placeholder: "john_doe",
+        placeholder: "john",
     },
     {
         id: "email",
         label: "Email",
         type: "email",
-        placeholder: "john_doe@gmail.com",
+        placeholder: "john@gmail.com",
     },
     {
         id: "phone",
         label: "Phone",
         type: "text",
-        placeholder: "+1 234 567 89",
-    },
-    {
-        id: "city",
-        label: "City",
-        type: "text",
-        placeholder: "USA",
+        placeholder: "+7 777 777 77 77",
     },
 ];
 
@@ -31,18 +25,6 @@ export const restaurantInputs = [
         label: "Name",
         type: "text",
         placeholder: "My Restaurant",
-    },
-    {
-        id: "type",
-        label: "Type",
-        type: "text",
-        placeholder: "restaurant",
-    },
-    {
-        id: "city",
-        label: "City",
-        type: "text",
-        placeholder: "Astana",
     },
     {
         id: "address",

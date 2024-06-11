@@ -5,12 +5,24 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import { useState } from "react";
 import axios from "axios";
 
+const cities = ["Almaty", "Astana", "Shymkent", "Karaganda", "Aktobe", "Taraz", "Pavlodar", "Ust-Kamenogorsk", "Semey", "Atyrau", "Kostanay", "Kyzylorda", "Aktau", "Ural", "Petropavlovsk", "Turkistan"];
+
 const New = ({ inputs, title }) => {
     const [file, setFile] = useState("");
-    const [info, setInfo] = useState({});
+    const [info, setInfo] = useState({
+        city: "",
+        role: "user",
+    });
+    const [isRestaurant, setIsRestaurant] = useState(false);
 
     const handleChange = (e) => {
         setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+    };
+
+    const handleCheckboxChange = (e) => {
+        const checked = e.target.checked;
+        setIsRestaurant(checked);
+        setInfo((prev) => ({ ...prev, role: checked ? "restaurant" : "user" })); // Update role based on checkbox
     };
 
     const handleClick = async (e) => {
@@ -79,6 +91,36 @@ const New = ({ inputs, title }) => {
                                     />
                                 </div>
                             ))}
+                            <div className="formInput">
+                                <label htmlFor="isRestaurant">Is Restaurant?</label>
+                                <input
+                                    type="checkbox"
+                                    id="isRestaurant"
+                                    checked={isRestaurant}
+                                    onChange={handleCheckboxChange}
+                                />
+                                {isRestaurant && (
+                                    <div className="formInput">
+                                        <input
+                                            onChange={handleChange}
+                                            type="text"
+                                            placeholder="Restaurant ID"
+                                            id="restaurantId"
+                                        />
+                                    </div>
+                                )}
+                            </div>
+                            <div className="formInput">
+                                <label>City</label>
+                                <select id="city" value={info.city} onChange={handleChange}>
+                                    <option value="">Select City</option>
+                                    {cities.map((city) => (
+                                        <option key={city} value={city.toLowerCase()}>
+                                            {city}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                             <button onClick={handleClick}>Send</button>
                         </form>
                     </div>

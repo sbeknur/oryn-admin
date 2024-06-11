@@ -1,19 +1,6 @@
 export const userColumns = [
     { field: "_id", headerName: "ID", width: 250 },
     {
-        field: "user",
-        headerName: "User",
-        width: 230,
-        renderCell: (params) => {
-            return (
-                <div className="cellWithImg">
-                    <img className="cellImg" src={params.row.img || "https://i.ibb.co/MBtjqXQ/no-avatar.gif"} alt="avatar" />
-                    {params.row.username}
-                </div>
-            );
-        },
-    },
-    {
         field: "email",
         headerName: "Email",
         width: 230,
@@ -43,14 +30,19 @@ export const restaurantColumns = [
         width: 100,
     },
     {
-        field: "title",
-        headerName: "Title",
-        width: 230,
-    },
-    {
         field: "city",
         headerName: "City",
         width: 100,
+    },
+    {
+        field: "desc",
+        headerName: "Description",
+        width: 230,
+    },
+    {
+        field: "rating",
+        headerName: "Rating",
+        width: 50,
     },
 ];
 
@@ -59,6 +51,11 @@ export const placeColumns = [
     {
         field: "title",
         headerName: "Title",
+        width: 230,
+    },
+    {
+        field: "number",
+        headerName: "Number",
         width: 230,
     },
     {

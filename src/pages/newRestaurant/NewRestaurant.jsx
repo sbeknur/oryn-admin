@@ -7,12 +7,18 @@ import { restaurantInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 
+const restaurantTypes = ["Cafe", "Restaurant", "FastFood", "Bar"];
+const cities = ["Almaty", "Astana", "Shymkent", "Karaganda", "Aktobe", "Taraz", "Pavlodar", "Ust-Kamenogorsk", "Semey", "Atyrau", "Kostanay", "Kyzylorda", "Aktau", "Ural", "Petropavlovsk", "Turkistan"];
+
 const NewRestaurant = () => {
     const [files, setFiles] = useState("");
-    const [info, setInfo] = useState({});
+    const [info, setInfo] = useState({
+        type: "",
+        city: "" 
+    });
     const [places, setPlaces] = useState([]);
+    const [message, setMessage] = useState("");
 
-    const { data, loading, error } = useFetch("/places");
 
     const handleChange = (e) => {
         setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -23,8 +29,6 @@ const NewRestaurant = () => {
         setPlaces(value);
     };
 
-    console.log(files);
-
     const handleClick = async (e) => {
         e.preventDefault();
         try {
@@ -33,31 +37,34 @@ const NewRestaurant = () => {
                     const data = new FormData();
                     data.append("file", file);
                     data.append("upload_preset", "upload");
-                    const uploadRes = await axios.post("https://api.cloudinary.com/v1_1/sbekunur/image/upload", data);
+                    const uploadRes = await axios.post("https://api.cloudinary.com/v1_1/sbeknur/image/upload", data);
 
                     const { url } = uploadRes.data;
                     return url;
                 })
             );
 
-            const newrestaurant = {
+            const newRestaurant = {
                 ...info,
                 places,
                 photos: list,
             };
 
-            await axios.post("/restaurants", newrestaurant);
+            await axios.post("/restaurants", newRestaurant);
+            setMessage('Restaurant added successfully');
         } catch (err) {
             console.log(err);
+            setMessage('Error adding restaurant');
         }
     };
+
     return (
         <div className="new">
             <Sidebar />
             <div className="newContainer">
                 <Navbar />
                 <div className="top">
-                    <h1>Add New Product</h1>
+                    <h1>Add New Restaurant</h1>
                 </div>
                 <div className="bottom">
                     <div className="left">
@@ -96,28 +103,31 @@ const NewRestaurant = () => {
                                     />
                                 </div>
                             ))}
-                            {/* <div className="formInput">
-                                <label>Featured</label>
-                                <select id="featured" onChange={handleChange}>
-                                    <option value={false}>No</option>
-                                    <option value={true}>Yes</option>
+                            <div className="formInput">
+                                <label>Type</label>
+                                <select id="type" value={info.type} onChange={handleChange}>
+                                    <option value="">Select Type</option>
+                                    {restaurantTypes.map((type) => (
+                                        <option key={type} value={type.toLowerCase()}>
+                                            {type}
+                                        </option>
+                                    ))}
                                 </select>
-                            </div> */}
-                            <div className="selectPlaces">
-                                <label>Places</label>
-                                <select id="places" multiple onChange={handleSelect}>
-                                    {loading
-                                        ? "loading"
-                                        : data &&
-                                          data.map((place) => (
-                                              <option key={place._id} value={place._id}>
-                                                  {place.title}
-                                              </option>
-                                          ))}
+                            </div>
+                            <div className="formInput">
+                                <label>City</label>
+                                <select id="city" value={info.city} onChange={handleChange}>
+                                    <option value="">Select City</option>
+                                    {cities.map((city) => (
+                                        <option key={city} value={city.toLowerCase()}>
+                                            {city}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                             <button onClick={handleClick}>Send</button>
                         </form>
+                        {message && <p>{message}</p>}
                     </div>
                 </div>
             </div>

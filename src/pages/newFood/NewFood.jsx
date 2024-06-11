@@ -3,7 +3,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import { useState } from "react";
 import { foodInputs } from "../../formSource";
-import { Navigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 const NewFood = () => {
@@ -11,6 +11,7 @@ const NewFood = () => {
     const { restaurantId } = location.state; // Получаем restaurantId из state
     const [info, setInfo] = useState({});
     const [foods, setFoods] = useState("");
+    const [message, setMessage] = useState("");
 
     const handleChange = (e) => {
         setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -21,10 +22,10 @@ const NewFood = () => {
         const foodNumbers = foods.split(",").map((food) => ({ number: food }));
         try {
             await axios.post(`/foods/${restaurantId}`, { ...info, foodNumbers });
-            alert('Food added successfully');
+            setMessage('Food added successfully');
         } catch (err) {
             console.log(err);
-            alert('Error adding food');
+            setMessage('Error adding food');
         }
     };
 
@@ -52,6 +53,7 @@ const NewFood = () => {
                             ))}
                             <button onClick={handleClick}>Send</button>
                         </form>
+                        {message && <p>{message}</p>}
                     </div>
                 </div>
             </div>

@@ -12,6 +12,7 @@ const NewPlace = () => {
     const { restaurantId } = location.state; // Получаем restaurantId из state
     const [files, setFiles] = useState([]);
     const [info, setInfo] = useState({});
+    const [message, setMessage] = useState("");
 
     const handleChange = (e) => {
         setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -27,10 +28,10 @@ const NewPlace = () => {
                 photos,
             };
             await axios.post(`/places/${restaurantId}`, newPlace);
-            alert('Place added successfully');
+            setMessage('Place added successfully');
         } catch (err) {
             console.log(err);
-            alert('Error adding place');
+            setMessage('Error adding place');
         }
     };
 
@@ -77,6 +78,7 @@ const NewPlace = () => {
                             ))}
                             <button onClick={handleClick}>Send</button>
                         </form>
+                        {message && <p>{message}</p>}
                     </div>
                 </div>
             </div>
