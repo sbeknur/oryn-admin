@@ -1,28 +1,54 @@
 .table {
-  .cellWrapper {
-    display: flex;
-    align-items: center;
+    .cellWrapper {
+        display: flex;
+        align-items: center;
 
-    .image {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      margin-right: 10px;
-      object-fit: cover;
+        .image {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
+        }
     }
-  }
 
-  .status {
-    padding: 5px;
-    border-radius: 5px;
+    .status {
+        padding: 5px;
+        border-radius: 5px;
 
-    &.Approved {
-      color: green;
-      background-color: rgba(0, 128, 0, 0.151);
+        &.Approved {
+            color: green;
+            background-color: rgba(0, 128, 0, 0.151);
+        }
+        &.Pending {
+            color: goldenrod;
+            background-color: rgba(189, 189, 3, 0.103);
+        }
     }
-    &.Pending {
-      color: goldenrod;
-      background-color: rgba(189, 189, 3, 0.103);
+
+    .cellAction {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .viewButton {
+            padding: 5px 10px;
+            border: none;
+            background-color: #3f51b5;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .deleteButton {
+            padding: 5px 10px;
+            border: none;
+            background-color: #f50057;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
     }
-  }
 }
