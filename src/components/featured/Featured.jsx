@@ -28,7 +28,7 @@ const Featured = () => {
                 <div className="featuredChart">
                     <CircularProgressbar value={(data.total / data.monthlyAverage) * 100} text={`${Math.round((data.total / data.monthlyAverage) * 100)}%`} strokeWidth={5} />
                 </div>
-                <p className="title">Total sales made today</p>
+                <p className="title">Total sales</p>
                 <p className="amount">${data.total}</p>
                 <p className="desc">Previous transactions processing. Last payments may not be included.</p>
                 <div className="summary">

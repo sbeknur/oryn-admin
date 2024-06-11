@@ -5,7 +5,7 @@ import Single from "./pages/single/Single";
 import New from "./pages/new/New";
 import MyRestaurant from "./pages/myRestaurant/MyRestaurant";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { userInputs } from "./formSource";
+import { placeInputs, restaurantInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
@@ -93,7 +93,7 @@ function App() {
                                 path="new"
                                 element={
                                     <ProtectedRoute allowedRoles={["admin"]}>
-                                        <NewRestaurant />
+                                        <NewRestaurant inputs={restaurantInputs} />
                                     </ProtectedRoute>
                                 }
                             />
@@ -119,7 +119,7 @@ function App() {
                                 path="new"
                                 element={
                                     <ProtectedRoute allowedRoles={["admin", "restaurant"]}>
-                                        <NewPlace />
+                                        <NewPlace columns={placeInputs} />
                                     </ProtectedRoute>
                                 }
                             />
@@ -130,6 +130,14 @@ function App() {
                                 element={
                                     <ProtectedRoute allowedRoles={["admin", "restaurant"]}>
                                         <List columns={foodColumns} />
+                                    </ProtectedRoute>
+                                }
+                            />
+                            <Route
+                                path=":id"
+                                element={
+                                    <ProtectedRoute allowedRoles={["admin", "restaurant"]}>
+                                        <Single />
                                     </ProtectedRoute>
                                 }
                             />

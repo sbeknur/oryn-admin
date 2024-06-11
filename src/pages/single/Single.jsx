@@ -5,7 +5,7 @@ import Navbar from "../../components/navbar/Navbar";
 import Chart from "../../components/chart/Chart";
 import List from "../../components/table/Table";
 import axios from "axios";
-import { userColumns, restaurantColumns, placeColumns } from "../../datatablesource";
+import { userColumns, restaurantColumns, placeColumns, foodColumns } from "../../datatablesource";
 import "./single.scss";
 
 const Single = () => {
@@ -15,6 +15,7 @@ const Single = () => {
     const [data, setData] = useState(null);
     const [info, setInfo] = useState({});
     const [editMode, setEditMode] = useState(false);
+    const [relatedData, setRelatedData] = useState({ places: [], foods: [] });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,6 +23,12 @@ const Single = () => {
                 const res = await axios.get(`/${path}/${id}`);
                 setData(res.data);
                 setInfo(res.data);
+
+                if (path === "restaurants") {
+                    const placesRes = await axios.get(`/places/byrestaurant/${id}`);
+                    const foodsRes = await axios.get(`/foods/byrestaurant/${id}`);
+                    setRelatedData({ places: placesRes.data, foods: foodsRes.data });
+                }
             } catch (err) {
                 console.error(err);
             }
@@ -52,6 +59,8 @@ const Single = () => {
                 return restaurantColumns;
             case "places":
                 return placeColumns;
+            case "foods":
+                return foodColumns;
             default:
                 return [];
         }
@@ -109,8 +118,21 @@ const Single = () => {
                                 )}
                             </div>
                         </div>
+                        {path === "restaurants" && (
+                            <div className="right">
+                                <Chart aspect={3 / 1} title="Restaurant Analytics" />
+                            </div>
+                        )}
                     </div>
                 </div>
+                {path === "restaurants" && (
+                    <div className="bottom">
+                        <h1 className="title">Places</h1>
+                        <List rows={relatedData.places} columns={placeColumns} />
+                        <h1 className="title">Foods</h1>
+                        <List rows={relatedData.foods} columns={foodColumns} />
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -1,26 +1,37 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "../../datatablesource";
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 const Datatable = ({ columns }) => {
     const location = useLocation();
     const path = location.pathname.split("/")[1];
-    const [list, setList] = useState();
+    const [list, setList] = useState([]);
     const { data, loading, error } = useFetch(`/${path}`);
+    const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        setList(data); //JSON
-    }, [data]);
+        if (user.role === "restaurant" && (path === "foods" || path === "places")) {
+            setList(data.filter(item => item.restaurantId === user.restaurantId));
+        } else {
+            setList(data);
+        }
+    }, [data, path, user]);
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`/${path}/${id}`);
+            if (user.role === "restaurant" && (path === "foods" || path === "places")) {
+                await axios.delete(`/${path}/${id}/${user.restaurantId}`);
+            } else {
+                await axios.delete(`/${path}/${id}`);
+            }
             setList(list.filter((item) => item._id !== id));
-        } catch (err) {}
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     const actionColumn = [
@@ -42,6 +53,7 @@ const Datatable = ({ columns }) => {
             },
         },
     ];
+
     return (
         <div className="datatable">
             <div className="datatableTitle">
