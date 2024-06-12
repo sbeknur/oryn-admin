@@ -5,7 +5,9 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { restaurantInputs } from "../../formSource";
-import useFetch from "../../hooks/useFetch"; // Добавленный импорт
+import { placeColumns, foodColumns } from "../../datatablesource";
+import useFetch from "../../hooks/useFetch";
+import List from "../../components/table/Table";
 import "./myRestaurant.scss";
 
 const MyRestaurant = () => {
@@ -16,6 +18,7 @@ const MyRestaurant = () => {
     const [places, setPlaces] = useState([]);
     const [success, setSuccess] = useState(false); // Добавленное состояние для успешного сообщения
     const { data: placesData, loading: placesLoading } = useFetch("/places");
+    const { data: foodsData, loading: foodsLoading } = useFetch(`/foods/byrestaurant/${user.restaurantId}`); // Добавленный fetch для foods
 
     useEffect(() => {
         const fetchRestaurant = async () => {
@@ -49,7 +52,7 @@ const MyRestaurant = () => {
                     const data = new FormData();
                     data.append("file", file);
                     data.append("upload_preset", "upload");
-                    const uploadRes = await axios.post("https://api.cloudinary.com/v1_1/sbekunur/image/upload", data);
+                    const uploadRes = await axios.post("https://api.cloudinary.com/v1_1/sbeknur/image/upload", data);
 
                     const { url } = uploadRes.data;
                     return url;
@@ -64,9 +67,8 @@ const MyRestaurant = () => {
 
             await axios.put(`/restaurants/${user.restaurantId}`, updatedRestaurant);
             setRestaurant(updatedRestaurant);
-            setSuccess(true); // Показать сообщение об успешном обновлении
+            setSuccess(true);
 
-            // Скрыть сообщение через 3 секунды
             setTimeout(() => {
                 setSuccess(false);
             }, 3000);
@@ -143,9 +145,20 @@ const MyRestaurant = () => {
                         {success && <div className="successMessage">Update successful!</div>}
                     </div>
                 </div>
+                <div className="tablesContainer">
+                    <div className="tableHeader">
+                        <h1 className="title">Places</h1>
+                        <List rows={placesData || []} columns={placeColumns} rowType="places" restaurantId={user.restaurantId} />
+                    </div>
+                    <div className="tableHeader">
+                        <h1 className="title">Foods</h1>
+                        <List rows={foodsData || []} columns={foodColumns} rowType="foods" restaurantId={user.restaurantId} />
+                    </div>
+                </div>
             </div>
         </div>
     );
 };
 
 export default MyRestaurant;
+

@@ -1,3 +1,4 @@
+import React from "react";
 import "./table.scss";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -8,22 +9,14 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
-import { useState, useEffect } from "react";
 
-const List = ({ rows, columns, rowType }) => {
+const List = ({ rows, columns, rowType, restaurantId }) => {
     const location = useLocation();
-    const restaurantId = location.pathname.split("/")[2]; // Предполагается, что restaurantId находится в URL
-
-    const [list, setList] = useState(rows);
-
-    useEffect(() => {
-        setList(rows);
-    }, [rows]);
 
     const handleDelete = async (id) => {
         try {
             await axios.delete(`/${rowType}/${id}/${restaurantId}`);
-            setList(list.filter((item) => item._id !== id));
+            window.location.reload(); // Перезагрузка страницы после удаления
         } catch (err) {
             console.error(err);
         }
@@ -67,7 +60,7 @@ const List = ({ rows, columns, rowType }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {list.map((row) => (
+                    {rows.map((row) => (
                         <TableRow key={row._id}>
                             {columns.map((column) => (
                                 <TableCell key={column.field} className="tableCell">

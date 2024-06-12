@@ -2,17 +2,28 @@ import "./newPlace.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { placeInputs } from "../../formSource";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 const NewPlace = () => {
     const location = useLocation();
-    const { restaurantId } = location.state; // Получаем restaurantId из state
-    const [files, setFiles] = useState([]);
+    const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
+    const [restaurantId, setRestaurantId] = useState(null);
     const [info, setInfo] = useState({});
+    const [files, setFiles] = useState([]);
     const [message, setMessage] = useState("");
+
+    useEffect(() => {
+        if (user.role === "restaurant") {
+            setRestaurantId(user.restaurantId);
+        } else if (location.state) {
+            setRestaurantId(location.state.restaurantId);
+        }
+    }, [user, location]);
 
     const handleChange = (e) => {
         setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -20,14 +31,19 @@ const NewPlace = () => {
 
     const handleClick = async (e) => {
         e.preventDefault();
-        const photos = files.map(file => URL.createObjectURL(file));
+        if (!restaurantId) {
+            setMessage('Restaurant ID is required');
+            return;
+        }
+
+        const data = new FormData();
+        files.forEach((file) => {
+            data.append("files", file);
+        });
+        data.append("info", JSON.stringify(info));
+
         try {
-            const newPlace = {
-                ...info,
-                restaurantId,
-                photos,
-            };
-            await axios.post(`/places/${restaurantId}`, newPlace);
+            await axios.post(`/places/${restaurantId}`, data);
             setMessage('Place added successfully');
         } catch (err) {
             console.log(err);
@@ -70,9 +86,9 @@ const NewPlace = () => {
                                     <label>{input.label}</label>
                                     <input
                                         id={input.id}
-                                        onChange={handleChange}
                                         type={input.type}
                                         placeholder={input.placeholder}
+                                        onChange={handleChange}
                                     />
                                 </div>
                             ))}

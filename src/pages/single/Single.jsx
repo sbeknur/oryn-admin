@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams, useLocation, Link, useNavigate } from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
-import Chart from "../../components/chart/Chart";
 import List from "../../components/table/Table";
 import axios from "axios";
 import { userColumns, restaurantColumns, placeColumns, foodColumns } from "../../datatablesource";
@@ -12,7 +11,7 @@ const Single = () => {
     const { id } = useParams();
     const location = useLocation();
     const navigate = useNavigate();
-    const path = location.pathname.split("/")[1]; // users, restaurants, places
+    const path = location.pathname.split("/")[1];
     const [data, setData] = useState(null);
     const [info, setInfo] = useState({});
     const [editMode, setEditMode] = useState(false);
@@ -90,6 +89,7 @@ const Single = () => {
                             {editMode ? "Cancel" : "Edit"}
                         </div>
                         <h1 className="title">Information</h1>
+                        
                         <div className="item">
                             <img
                                 src={data.img || "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"}
@@ -129,11 +129,6 @@ const Single = () => {
                             </div>
                         </div>
                     </div>
-                    {path === "restaurants" && (
-                        <div className="right">
-                            <Chart aspect={3 / 1} title="Restaurant Analytics" />
-                        </div>
-                    )}
                 </div>
                 {path === "restaurants" && (
                     <div className="bottom">

@@ -1,17 +1,28 @@
 import "./newFood.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import { foodInputs } from "../../formSource";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 const NewFood = () => {
     const location = useLocation();
-    const { restaurantId } = location.state; // Получаем restaurantId из state
+    const navigate = useNavigate();
+    const { user } = useContext(AuthContext);
+    const [restaurantId, setRestaurantId] = useState(null);
     const [info, setInfo] = useState({});
     const [foods, setFoods] = useState("");
     const [message, setMessage] = useState("");
+
+    useEffect(() => {
+        if (user.role === "restaurant") {
+            setRestaurantId(user.restaurantId);
+        } else if (location.state) {
+            setRestaurantId(location.state.restaurantId);
+        }
+    }, [user, location]);
 
     const handleChange = (e) => {
         setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -19,6 +30,11 @@ const NewFood = () => {
 
     const handleClick = async (e) => {
         e.preventDefault();
+        if (!restaurantId) {
+            setMessage('Restaurant ID is required');
+            return;
+        }
+        
         const foodNumbers = foods.split(",").map((food) => ({ number: food }));
         try {
             await axios.post(`/foods/${restaurantId}`, { ...info, foodNumbers });

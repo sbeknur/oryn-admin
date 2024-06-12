@@ -57,18 +57,6 @@ const Sidebar = () => {
                                     <span>My Restaurant</span>
                                 </li>
                             </Link>
-                            <Link to="/places" style={{ textDecoration: "none" }}>
-                                <li>
-                                    <CreditCardIcon className="icon" />
-                                    <span>Places</span>
-                                </li>
-                            </Link>
-                            <Link to="/foods" style={{ textDecoration: "none" }}>
-                                <li>
-                                    <FastfoodIcon className="icon" />
-                                    <span>Foods</span>
-                                </li>
-                            </Link>
                         </>
                     )}
                     <li onClick={handleLogout}>

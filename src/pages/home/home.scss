@@ -1,31 +1,52 @@
 .home {
-  display: flex;
+    display: flex;
+    width: 100%;
 
-  .homeContainer {
-    flex: 6;
-
-    .widgets,
-    .charts {
-      display: flex;
-      padding: 20px;
-      gap: 20px;
+    .homeContainer {
+        flex: 6;
     }
 
-    .charts {
-      padding: 5px 20px;
+    .homeBody {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        height: 80%;
+        text-align: center;
     }
 
-    .listContainer {
-      -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-      box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
-      padding: 20px;
-      margin: 20px;
-
-      .listTitle {
-        font-weight: 500;
-        color: gray;
-        margin-bottom: 15px;
-      }
+    .welcome {
+        margin-bottom: 20px;
     }
-  }
+
+    .welcome h1 {
+        margin: 0;
+        font-size: 24px;
+    }
+
+    .quickActions {
+        margin-bottom: 20px;
+    }
+
+    .quickActions h2 {
+        margin-bottom: 10px;
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .actionButton {
+        padding: 10px 20px;
+        border: none;
+        background-color: #3f51b5;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .actionButton:hover {
+        background-color: #303f9f;
+    }
 }
