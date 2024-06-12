@@ -50,7 +50,7 @@ const NewRestaurant = () => {
                 photos: list,
             };
 
-            await axios.post("/restaurants", newRestaurant);
+            await axios.post("https://oryn.onrender.com/api/restaurants", newRestaurant);
             setMessage('Restaurant added successfully');
         } catch (err) {
             console.log(err);

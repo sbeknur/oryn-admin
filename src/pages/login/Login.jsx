@@ -22,7 +22,7 @@ const Login = () => {
         e.preventDefault();
         dispatch({ type: "LOGIN_START" });
         try {
-            const res = await axios.post("/auth/login", credentials);
+            const res = await axios.post("https://oryn.onrender.com/api/auth/login", credentials);
             const user = res.data.details;
             if (user.role === "admin" || user.role === "restaurant") {
                 dispatch({ type: "LOGIN_SUCCESS", payload: user });

@@ -43,7 +43,7 @@ const NewPlace = () => {
         data.append("info", JSON.stringify(info));
 
         try {
-            await axios.post(`/places/${restaurantId}`, data);
+            await axios.post(`https://oryn.onrender.com/api/places/${restaurantId}`, data);
             setMessage('Place added successfully');
         } catch (err) {
             console.log(err);

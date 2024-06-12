@@ -37,7 +37,7 @@ const NewFood = () => {
         
         const foodNumbers = foods.split(",").map((food) => ({ number: food }));
         try {
-            await axios.post(`/foods/${restaurantId}`, { ...info, foodNumbers });
+            await axios.post(`https://oryn.onrender.com/api/foods/${restaurantId}`, { ...info, foodNumbers });
             setMessage('Food added successfully');
         } catch (err) {
             console.log(err);

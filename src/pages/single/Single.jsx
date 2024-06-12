@@ -25,8 +25,8 @@ const Single = () => {
                 setInfo(res.data);
 
                 if (path === "restaurants") {
-                    const placesRes = await axios.get(`/places/byrestaurant/${id}`);
-                    const foodsRes = await axios.get(`/foods/byrestaurant/${id}`);
+                    const placesRes = await axios.get(`https://oryn.onrender.com/api/places/byrestaurant/${id}`);
+                    const foodsRes = await axios.get(`https://oryn.onrender.com/api/foods/byrestaurant/${id}`);
                     setRelatedData({ places: placesRes.data, foods: foodsRes.data });
                 }
             } catch (err) {
@@ -43,7 +43,7 @@ const Single = () => {
 
     const handleSave = async () => {
         try {
-            await axios.put(`/${path}/${id}`, info);
+            await axios.put(`https://oryn.onrender.com/api/${path}/${id}`, info);
             setEditMode(false);
             alert("Update successful");
         } catch (err) {
@@ -71,11 +71,11 @@ const Single = () => {
     const columns = getColumnInfo();
 
     const handleAddNewPlace = () => {
-        navigate(`/places/new`, { state: { restaurantId: id } });
+        navigate(`https://oryn.onrender.com/api/places/new`, { state: { restaurantId: id } });
     };
 
     const handleAddNewFood = () => {
-        navigate(`/foods/new`, { state: { restaurantId: id } });
+        navigate(`https://oryn.onrender.com/api/foods/new`, { state: { restaurantId: id } });
     };
 
     return (

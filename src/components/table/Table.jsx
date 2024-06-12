@@ -15,7 +15,7 @@ const List = ({ rows, columns, rowType, restaurantId }) => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.delete(`/${rowType}/${id}/${restaurantId}`);
+            await axios.delete(`https://oryn.onrender.com/api/${rowType}/${id}/${restaurantId}`);
             window.location.reload(); // Перезагрузка страницы после удаления
         } catch (err) {
             console.error(err);
@@ -23,7 +23,7 @@ const List = ({ rows, columns, rowType, restaurantId }) => {
     };
 
     const getEditLink = (row) => {
-        return `/${rowType}/${row._id}`;
+        return `https://oryn.onrender.com/api/${rowType}/${row._id}`;
     };
 
     const actionColumn = {

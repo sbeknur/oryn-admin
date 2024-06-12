@@ -17,13 +17,13 @@ const MyRestaurant = () => {
     const [info, setInfo] = useState({});
     const [places, setPlaces] = useState([]);
     const [success, setSuccess] = useState(false); // Добавленное состояние для успешного сообщения
-    const { data: placesData, loading: placesLoading } = useFetch("/places");
-    const { data: foodsData, loading: foodsLoading } = useFetch(`/foods/byrestaurant/${user.restaurantId}`); // Добавленный fetch для foods
+    const { data: placesData, loading: placesLoading } = useFetch("https://oryn.onrender.com/api/places");
+    const { data: foodsData, loading: foodsLoading } = useFetch(`https://oryn.onrender.com/api/foods/byrestaurant/${user.restaurantId}`); // Добавленный fetch для foods
 
     useEffect(() => {
         const fetchRestaurant = async () => {
             try {
-                const res = await axios.get(`/restaurants/${user.restaurantId}`);
+                const res = await axios.get(`https://oryn.onrender.com/api/restaurants/${user.restaurantId}`);
                 setRestaurant(res.data);
                 setInfo(res.data);
                 setPlaces(res.data.places.map((place) => place._id));
@@ -65,7 +65,7 @@ const MyRestaurant = () => {
                 photos: list.length > 0 ? list : restaurant.photos,
             };
 
-            await axios.put(`/restaurants/${user.restaurantId}`, updatedRestaurant);
+            await axios.put(`https://oryn.onrender.com/api/restaurants/${user.restaurantId}`, updatedRestaurant);
             setRestaurant(updatedRestaurant);
             setSuccess(true);
 
