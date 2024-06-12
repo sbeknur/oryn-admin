@@ -20,7 +20,7 @@ const Single = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await axios.get(`/${path}/${id}`);
+                const res = await axios.get(`https://oryn.onrender.com/api/${path}/${id}`);
                 setData(res.data);
                 setInfo(res.data);
 
@@ -71,11 +71,11 @@ const Single = () => {
     const columns = getColumnInfo();
 
     const handleAddNewPlace = () => {
-        navigate(`https://oryn.onrender.com/api/places/new`, { state: { restaurantId: id } });
+        navigate(`/places/new`, { state: { restaurantId: id } });
     };
 
     const handleAddNewFood = () => {
-        navigate(`https://oryn.onrender.com/api/foods/new`, { state: { restaurantId: id } });
+        navigate(`/foods/new`, { state: { restaurantId: id } });
     };
 
     return (
